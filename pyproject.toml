@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "messenger-auto-reply-bot"
-version = "0.1.0"
-description = "FastAPI Messenger webhook bot for automatic Facebook Page replies."
+version = "0.2.0"
+description = "FastAPI and Playwright Messenger auto-reply bot for Facebook Page replies."
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "GitHub-GPT Developer" }]
@@ -15,6 +15,7 @@ dependencies = [
     "uvicorn[standard]>=0.30.0",
     "httpx>=0.27.0",
     "python-dotenv>=1.0.1",
+    "playwright>=1.49.0",
 ]
 
 [project.optional-dependencies]
@@ -31,6 +32,9 @@ packages = ["app"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+markers = [
+    "browser: tests that launch a local Playwright browser",
+]
 
 [tool.ruff]
 line-length = 100
