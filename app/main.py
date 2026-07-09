@@ -105,4 +105,12 @@ async def receive_webhook(request: Request) -> JSONResponse:
             logger.exception("Failed to send Messenger reply")
             errors.append(str(exc))
 
-    return JSONResponse({"ok": not errors, "received": received, "replied": replied, "skipped": skipped, "errors": errors})
+    return JSONResponse(
+        {
+            "ok": not errors,
+            "received": received,
+            "replied": replied,
+            "skipped": skipped,
+            "errors": errors,
+        }
+    )
