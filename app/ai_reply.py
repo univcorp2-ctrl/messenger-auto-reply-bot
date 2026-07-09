@@ -34,10 +34,17 @@ async def generate_ai_reply(message_text: str, settings: Settings) -> str | None
             {"role": "user", "content": message_text},
         ],
     }
-    headers = {"Authorization": f"Bearer {settings.openai_api_key}", "Content-Type": "application/json"}
+    headers = {
+        "Authorization": f"Bearer {settings.openai_api_key}",
+        "Content-Type": "application/json",
+    }
     try:
         async with httpx.AsyncClient(timeout=15) as client:
-            response = await client.post("https://api.openai.com/v1/responses", json=payload, headers=headers)
+            response = await client.post(
+                "https://api.openai.com/v1/responses",
+                json=payload,
+                headers=headers,
+            )
             response.raise_for_status()
             return _extract_output_text(response.json())
     except httpx.HTTPError as exc:
