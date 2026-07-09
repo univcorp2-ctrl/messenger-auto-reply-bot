@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+from typing import Any
 
 from fastapi.testclient import TestClient
 
@@ -16,14 +17,14 @@ def _signature(secret: str, body: bytes) -> str:
     return f"sha256={digest}"
 
 
-def test_health(monkeypatch) -> None:
+def test_health(monkeypatch: Any) -> None:
     monkeypatch.setenv("PAGE_ACCESS_TOKEN", "")
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["ok"] is True
 
 
-def test_verify_webhook_success(monkeypatch) -> None:
+def test_verify_webhook_success(monkeypatch: Any) -> None:
     monkeypatch.setenv("VERIFY_TOKEN", "token-123")
     response = client.get(
         "/webhook",
@@ -37,7 +38,7 @@ def test_verify_webhook_success(monkeypatch) -> None:
     assert response.text == "challenge-value"
 
 
-def test_verify_webhook_rejects_bad_token(monkeypatch) -> None:
+def test_verify_webhook_rejects_bad_token(monkeypatch: Any) -> None:
     monkeypatch.setenv("VERIFY_TOKEN", "token-123")
     response = client.get(
         "/webhook",
@@ -50,7 +51,7 @@ def test_verify_webhook_rejects_bad_token(monkeypatch) -> None:
     assert response.status_code == 403
 
 
-def test_receive_webhook_replies(monkeypatch, tmp_path) -> None:
+def test_receive_webhook_replies(monkeypatch: Any, tmp_path: Any) -> None:
     secret = "app-secret"
     monkeypatch.setenv("APP_SECRET", secret)
     monkeypatch.setenv("PAGE_ACCESS_TOKEN", "")
@@ -62,7 +63,11 @@ def test_receive_webhook_replies(monkeypatch, tmp_path) -> None:
     monkeypatch.setenv("REPLY_RULES_PATH", str(rules_path))
     sent: list[tuple[str, str]] = []
 
-    async def fake_send_text_message(recipient_id, text, settings=None):
+    async def fake_send_text_message(
+        recipient_id: str,
+        text: str,
+        settings: Any = None,
+    ) -> dict[str, bool]:
         sent.append((recipient_id, text))
         return {"ok": True}
 
@@ -86,14 +91,17 @@ def test_receive_webhook_replies(monkeypatch, tmp_path) -> None:
     response = client.post(
         "/webhook",
         content=body,
-        headers={"X-Hub-Signature-256": _signature(secret, body), "Content-Type": "application/json"},
+        headers={
+            "X-Hub-Signature-256": _signature(secret, body),
+            "Content-Type": "application/json",
+        },
     )
     assert response.status_code == 200
     assert response.json()["replied"] == 1
     assert sent == [("USER_ID", "ok reply")]
 
 
-def test_receive_webhook_rejects_invalid_signature(monkeypatch) -> None:
+def test_receive_webhook_rejects_invalid_signature(monkeypatch: Any) -> None:
     monkeypatch.setenv("APP_SECRET", "app-secret")
     response = client.post(
         "/webhook",
