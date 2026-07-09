@@ -1,0 +1,29 @@
+{
+  "rules": [
+    {
+      "name": "greeting",
+      "pattern": "(?i)^(hi|hello|hey|こんにちは|こんばんは|おはよう)",
+      "response": "こんにちは！メッセージありがとうございます。ご用件を送ってください。"
+    },
+    {
+      "name": "business_hours",
+      "pattern": "(?i)(営業時間|open|hours|何時)",
+      "response": "営業時間についてのお問い合わせありがとうございます。担当者が確認して返信します。"
+    },
+    {
+      "name": "pricing",
+      "pattern": "(?i)(料金|価格|値段|price|cost|いくら)",
+      "response": "料金についてのお問い合わせありがとうございます。内容を確認してご案内します。"
+    },
+    {
+      "name": "appointment",
+      "pattern": "(?i)(予約|appointment|schedule|日程)",
+      "response": "ご予約についてありがとうございます。希望日時とお名前を送ってください。"
+    },
+    {
+      "name": "default",
+      "pattern": ".*",
+      "response": "メッセージありがとうございます。確認して返信します。"
+    }
+  ]
+}
