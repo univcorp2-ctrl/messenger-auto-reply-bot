@@ -19,3 +19,11 @@
 - Meta WebhookのPOSTは必ず200を速く返す。
 - 返信ルールは `config/reply_rules.example.json` と同じスキーマを維持する。
 - AI返信は任意機能。標準は `AUTO_REPLY_MODE=rules`。
+
+## 追加開発候補
+
+- SQLiteに受信イベントを保存
+- 管理画面で返信ルールを編集
+- 送信失敗リトライキュー
+- Meta App Review向けのテストユーザー手順
+- MessengerだけでなくInstagram Messagingへ拡張
