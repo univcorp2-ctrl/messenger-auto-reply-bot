@@ -14,7 +14,11 @@ class MessengerSendError(RuntimeError):
     """Raised when Messenger Send API returns an error."""
 
 
-async def send_text_message(recipient_id: str, text: str, settings: Settings | None = None) -> dict[str, Any]:
+async def send_text_message(
+    recipient_id: str,
+    text: str,
+    settings: Settings | None = None,
+) -> dict[str, Any]:
     settings = settings or get_settings()
     if not settings.has_page_access_token:
         logger.info("PAGE_ACCESS_TOKEN is not configured. Skipping Messenger send.")
@@ -31,5 +35,7 @@ async def send_text_message(recipient_id: str, text: str, settings: Settings | N
             json=payload,
         )
     if response.status_code >= 400:
-        raise MessengerSendError(f"Messenger Send API failed: {response.status_code} {response.text}")
+        raise MessengerSendError(
+            f"Messenger Send API failed: {response.status_code} {response.text}"
+        )
     return response.json()
