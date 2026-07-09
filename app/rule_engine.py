@@ -17,10 +17,26 @@ class ReplyRule:
 
 
 DEFAULT_RULES: tuple[ReplyRule, ...] = (
-    ReplyRule("greeting", r"(?i)^(hi|hello|hey|こんにちは|こんばんは|おはよう)", "こんにちは！メッセージありがとうございます。ご用件を送ってください。"),
-    ReplyRule("hours", r"(?i)(営業時間|open|hours|何時)", "営業時間についてのお問い合わせありがとうございます。担当者が確認して返信します。"),
-    ReplyRule("price", r"(?i)(料金|価格|値段|price|cost|いくら)", "料金についてのお問い合わせありがとうございます。内容を確認してご案内します。"),
-    ReplyRule("default", r".*", "メッセージありがとうございます。確認して返信します。"),
+    ReplyRule(
+        "greeting",
+        r"(?i)^(hi|hello|hey|こんにちは|こんばんは|おはよう)",
+        "こんにちは！メッセージありがとうございます。ご用件を送ってください。",
+    ),
+    ReplyRule(
+        "hours",
+        r"(?i)(営業時間|open|hours|何時)",
+        "営業時間についてのお問い合わせありがとうございます。担当者が確認して返信します。",
+    ),
+    ReplyRule(
+        "price",
+        r"(?i)(料金|価格|値段|price|cost|いくら)",
+        "料金についてのお問い合わせありがとうございます。内容を確認してご案内します。",
+    ),
+    ReplyRule(
+        "default",
+        r".*",
+        "メッセージありがとうございます。確認して返信します。",
+    ),
 )
 
 
